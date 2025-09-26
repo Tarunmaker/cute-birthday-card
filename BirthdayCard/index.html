@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy Birthday 🎀</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ffe6f0, #e6f0ff);
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .pages {
+      position: relative;
+      width: 100%;
+      max-width: 520px;
+      height: 90vh;
+      perspective: 1500px;
+      overflow: hidden;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 35px 28px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+      display: none;
+      overflow-y: auto;
+    }
+
+    .card.active {
+      display: block;
+      opacity: 1;
+      transform: rotateY(0deg);
+      z-index: 5;
+      animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 200px;
+      height: 200px;
+      background: #ffb6c1;
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: float 6s ease-in-out infinite;
+    }
+    .card::after {
+      content: "";
+      position: absolute;
+      bottom: -100px;
+      left: -100px;
+      width: 220px;
+      height: 220px;
+      background: #add8e6;
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: float 7s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 44px;
+      color: #ff6fa0;
+      margin: 0 0 10px;
+      animation: sparkle 2s infinite;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { text-shadow: 0 0 6px #ffb6c1; }
+      50% { text-shadow: 0 0 12px #ff69b4; }
+    }
+
+    p {
+      font-size: 15px;
+      color: #444;
+      margin: 8px 0;
+    }
+
+    .message, .apology, .poem {
+      margin: 18px 0;
+      font-size: 15px;
+      padding: 14px;
+      border-radius: 12px;
+      line-height: 1.6;
+      color: #555;
+    }
+
+    .message { background: #fff0f6; }
+    .apology { background: #e6f7ff; font-style: italic; }
+    .poem { background: #f0fff4; font-style: italic; }
+
+    .signature {
+      margin-top: 12px;
+      font-weight: 600;
+      color: #777;
+    }
+
+    .cute-icon {
+      font-size: 36px;
+      margin-bottom: 10px;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .nav-buttons {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+      z-index: 10;
+    }
+
+    .nav-buttons button {
+      background: #ff6fa0;
+      border: none;
+      border-radius: 30px;
+      padding: 10px 20px;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .nav-buttons button:hover {
+      background: #ff85b3;
+    }
+
+    /* Cake Styling */
+    .cake-container {
+      margin: 20px 0;
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
+
+    .cake {
+      position: relative;
+      width: 120px;
+      height: 100px;
+      text-align: center;
+    }
+
+    .candle {
+      width: 12px;
+      height: 35px;
+      background: #fff;
+      border-radius: 3px;
+      position: absolute;
+      top: -35px;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .flame {
+      width: 8px;
+      height: 14px;
+      background: orange;
+      border-radius: 50%;
+      position: absolute;
+      top: -14px;
+      left: 2px;
+      opacity: 0;
+      transform-origin: bottom center;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .flame.lit {
+      opacity: 1;
+      animation: flicker 0.5s infinite alternate;
+    }
+
+    @keyframes flicker {
+      0% { transform: scaleY(1); }
+      50% { transform: scaleY(1.2) rotate(2deg); }
+      100% { transform: scaleY(0.9) rotate(-2deg); }
+    }
+
+    .cake-layer {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      border-radius: 12px;
+    }
+
+    .cake-layer-bottom {
+      bottom: 0;
+      height: 40px;
+      background: #ff99cc;
+    }
+
+    .cake-layer-top {
+      bottom: 35px;
+      height: 30px;
+      background: #ffb6d9;
+    }
+
+    .sprinkles .sprinkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: #fff700;
+      border-radius: 50%;
+    }
+
+    .cake-glow {
+      position: absolute;
+      top: -20px;
+      left: -20px;
+      width: 160px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,182,193,0.4) 0%, rgba(255,182,193,0) 70%);
+      z-index: 1;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="pages">
+    <!-- Page 1: Birthday Wish with Cake -->
+    <div class="card active" id="card-0">
+      <div class="cute-icon">🎂✨🎀</div>
+      <h1>Happy Birthday</h1>
+      <div class="message">
+        May your special day be filled with sweet surprises and magical moments 🌸💫. You deserve nothing but the best — keep shining and spreading joy everywhere you go!
+      </div>
+
+      <!-- Cake Section -->
+      <div class="cake-container">
+        <div class="cake">
+          <div class="candle" style="left: 30px;" onclick="lightCandle(this)"><div class="flame"></div></div>
+          <div class="candle" style="left: 54px;" onclick="lightCandle(this)"><div class="flame"></div></div>
+          <div class="candle" style="left: 78px;" onclick="lightCandle(this)"><div class="flame"></div></div>
+
+          <div class="cake-layer cake-layer-bottom"></div>
+          <div class="cake-layer cake-layer-top"></div>
+
+          <div class="sprinkles">
+            <span class="sprinkle" style="top:5px; left:10px;"></span>
+            <span class="sprinkle" style="top:15px; left:30px;"></span>
+            <span class="sprinkle" style="top:8px; left:60px;"></span>
+            <span class="sprinkle" style="top:12px; left:45px;"></span>
+          </div>
+
+          <div class="cake-glow"></div>
+        </div>
+      </div>
+
+      <div class="signature">— From someone who cares</div>
+    </div>
+
+    <!-- Page 2: Apology -->
+    <div class="card" id="card-1">
+      <div class="cute-icon">💌🕊️🌷</div>
+      <h1>Sorry</h1>
+      <div class="apology">
+        I’m really sorry if I ever hurt you 🙏. I never meant to, and I hope someday you can forgive me. More than anything, I just want you to be happy, today and always 💕.
+      </div>
+      <div class="signature">— With respect & care</div>
+    </div>
+
+    <!-- Page 3: Cute Poem -->
+    <div class="card" id="card-2">
+      <div class="cute-icon">🌸✨💫</div>
+      <h1>A Little Wish</h1>
+      <div class="poem">
+        On your birthday, here’s my song,<br/>
+        May your days be bright, your nights be strong.<br/>
+        Smiles and laughter, skies so blue,<br/>
+        The world deserves the magic in you 🌷💌.
+      </div>
+      <div class="signature">— From someone who still cares</div>
+    </div>
+
+    <div class="nav-buttons">
+      <button onclick="prevPage()">👈 Back</button>
+      <button onclick="nextPage()">Next 👉</button>
+    </div>
+  </div>
+
+  <script>
+    let currentPage = 0;
+    const cards = document.querySelectorAll('.card');
+
+    function showPage(index) {
+      cards.forEach((card, i) => {
+        card.classList.remove('active');
+        if (i === index) {
+          card.classList.add('active');
+        }
+      });
+    }
+
+    function nextPage() {
+      if (currentPage < cards.length - 1) {
+        currentPage++;
+        showPage(currentPage);
+      }
+    }
+
+    function prevPage() {
+      if (currentPage > 0) {
+        currentPage--;
+        showPage(currentPage);
+      }
+    }
+
+    function lightCandle(candle) {
+      const flame = candle.querySelector('.flame');
+      flame.classList.toggle('lit');
+    }
+  </script>
+</body>
+</html>
